@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My first three.js app</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+    <script src="js/three.js"></script>
+    <div>
+        <script>
+            let camera, scene, renderer, material;
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(10, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 0, 15);
+
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            const geometry = new THREE.BoxGeometry();
+            material = new THREE.MeshLambertMaterial({ color: 0xf49060 });
+            const object = new THREE.Mesh(geometry, material);
+            const light = new THREE.DirectionalLight(0xffffff, .3);
+            const amlight = new THREE.AmbientLight(0xffffff, 1);
+            light.position.set(3, 2, 3).normalize();
+            scene.add(light);
+            scene.add(amlight);
+            scene.add(object);
+
+            function animate() {
+                requestAnimationFrame(animate);
+                object.rotation.x += 0.01;
+                object.rotation.y += 0.01;
+                renderer.render(scene, camera);
+            }
+            animate();
+
+        </script>
+    </div>
+</body>
+
+</html>
