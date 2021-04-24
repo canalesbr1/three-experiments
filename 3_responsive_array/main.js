@@ -1,4 +1,4 @@
-let scene, camera, renderer, objects, tween_up, tween_down, x, y, raycaster, mouse
+let scene, camera, renderer, objects, materials, tween_up, tween_down, x, y, raycaster, mouse, color1, color2
 
 function getI(x, xsize) {
     return (y * xsize + x)
@@ -18,10 +18,11 @@ function init() {
 
     renderer = new THREE.WebGLRenderer({ antialias: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setClearColor(0xF9F9F9, 1)
 
     document.body.appendChild(renderer.domElement)
 
-    scene.add(new THREE.AmbientLight(0xffffff, .6))
+    scene.add(new THREE.AmbientLight(0xffffff, .3))
     const light = new THREE.DirectionalLight(0xffffff, 1)
     light.position.set(2, 3, 1.5).normalize()
     scene.add(light)
@@ -30,9 +31,14 @@ function init() {
     mouse = new THREE.Vector2()
 
     const geometry = new THREE.BoxGeometry(.25, .25, .25)
-    const material = new THREE.MeshLambertMaterial({ color: 0xf19f8d })
-    xnum = 20
-    ynum = 20
+    //const geometry = new THREE.CylinderGeometry(.12, .12, .5, 16)
+
+    color1 = new THREE.Color(0xEEE9E6)
+    color2 = new THREE.Color(0xFF2E00)
+
+    const material = new THREE.MeshLambertMaterial({ color: color1 })
+    xnum = 25
+    ynum = 25
 
     const xt = .29
     const yt = .29
@@ -73,8 +79,8 @@ function onMouseMove(event) {
     for (let i = 0; i < intersects.length; i++) {
         //intersects[i].object.position.y += .1
         //intersects[i].object.rotation.y += .05
-        intersects[i].object.scale.y += .2;
-        intersects[i].object.position.y += .0125 * 2
+        intersects[i].object.scale.y += 4;
+        intersects[i].object.position.y -= .0125 * 1000
 
     }
 }
@@ -86,6 +92,7 @@ function animate() {
         objects[i].scale.y *= .998;
         objects[i].scale.y = clamp(objects[i].scale.y, 1, 100000)
         objects[i].position.y *= .95;
+
     }
     TWEEN.update()
     renderer.render(scene, camera)
